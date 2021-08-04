@@ -9,6 +9,7 @@
  The [lambdas](./terraform/lambda.tf) are created with a module from [https://serverless.tf/](https://serverless.tf/)
 
  Docs: https://github.com/terraform-aws-modules/terraform-aws-lambda
- Exmaples: https://github.com/terraform-aws-modules/terraform-aws-lambda/tree/master/examples
+
+ Examples: https://github.com/terraform-aws-modules/terraform-aws-lambda/tree/master/examples
 
  See more for serverless here [https://serverless.tf/#aws-serverless](https://serverless.tf/#aws-serverless)
