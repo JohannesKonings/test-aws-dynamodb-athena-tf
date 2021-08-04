@@ -10,7 +10,20 @@ resource "aws_kinesis_firehose_delivery_stream" "aws_kinesis_firehose_delivery_s
   s3_configuration {
     role_arn   = aws_iam_role.aws_iam_role.arn
     bucket_arn = aws_s3_bucket.aws_s3_bucket.arn
+
+    cloudwatch_logging_options {
+      enabled         = true
+      log_group_name  = aws_cloudwatch_log_group.aws_cloudwatch_log_group_firehose.name
+      log_stream_name = aws_cloudwatch_log_group.aws_cloudwatch_log_group_firehose.name
+    }
   }
+
+}
+
+
+resource "aws_cloudwatch_log_group" "aws_cloudwatch_log_group_firehose" {
+  name              = "/aws/firehose/dummy"
+  retention_in_days = 7
 }
 
 
@@ -43,10 +56,20 @@ resource "aws_iam_role" "aws_iam_role" {
       Version = "2012-10-17"
       Statement = [
         {
-          Action   = ["kinesis:DescribeStream"]
+          Action   = "*"
           Effect   = "Allow"
-          Resource = aws_kinesis_stream.aws_kinesis_stream.arn
+          Resource = "*"
         },
+        {
+          "Action" : [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+          ],
+          "Resource" : "*",
+          "Effect" : "Allow"
+        }
+
       ]
     })
   }
