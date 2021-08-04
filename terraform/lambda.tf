@@ -6,6 +6,23 @@ module "lambda_function" {
   handler       = "index.handler"
   runtime       = "nodejs14.x"
 
+  environment_variables = {
+    TABLE_NAME = var.TABLE_NAME
+  }
+
+  attach_policy_json = true
+
+  policy_json = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["dynamodb:PutItem"]
+        Effect   = "Allow"
+        Resource = aws_dynamodb_table.aws_dynamodb_table.arn
+      },
+    ]
+  })
+
   source_path = "./src/persons-loader"
 
 }
