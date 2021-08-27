@@ -1,5 +1,9 @@
+locals {
+  firehose-name = "${var.TABLE_NAME}-firehose-stream"
+}
+
 resource "aws_kinesis_firehose_delivery_stream" "aws_kinesis_firehose_delivery_stream" {
-  name        = "${var.TABLE_NAME}-firehose-stream"
+  name        = local.firehose-name
   destination = "s3"
 
   kinesis_source_configuration {
@@ -17,9 +21,7 @@ resource "aws_kinesis_firehose_delivery_stream" "aws_kinesis_firehose_delivery_s
       log_stream_name = aws_cloudwatch_log_group.aws_cloudwatch_log_group_firehose.name
     }
   }
-
 }
-
 
 resource "aws_cloudwatch_log_group" "aws_cloudwatch_log_group_firehose" {
   name              = "/aws/firehose/dummy"
@@ -56,20 +58,15 @@ resource "aws_iam_role" "aws_iam_role" {
       Version = "2012-10-17"
       Statement = [
         {
-          Action   = "*"
-          Effect   = "Allow"
-          Resource = "*"
-        },
-        {
-          "Action" : [
+          Action = [
+            "firehose:*",
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
             "logs:PutLogEvents"
-          ],
-          "Resource" : "*",
-          "Effect" : "Allow"
+          ]
+          Effect   = "Allow"
+          Resource = "arn:aws:firehose:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:deliverystream/${local.firehose-name}"
         }
-
       ]
     })
   }

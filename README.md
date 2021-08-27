@@ -6,8 +6,6 @@
 
 :warning: Don't forget to destroy after testing. Kinesis Data Streams has [costs](https://aws.amazon.com/kinesis/data-streams/pricing/) per hour
 
-:warning: policicies are not at the least privileges
-
 ## serverless.tf
 
  The [lambdas](./terraform/lambda.tf) are created with a module from [https://serverless.tf/](https://serverless.tf/)
