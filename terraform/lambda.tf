@@ -26,3 +26,15 @@ module "lambda_function" {
   source_path = "./src/persons-loader"
 
 }
+
+module "lambda_function_persons_firehose_converter" {
+  source = "terraform-aws-modules/lambda/aws"
+
+  function_name = "persons-firehose-converter"
+  description   = "add missing linefeed"
+  handler       = "index.handler"
+  runtime       = "nodejs14.x"
+
+  source_path = "./src/firehose-converter"
+
+}
