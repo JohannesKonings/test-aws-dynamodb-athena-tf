@@ -76,6 +76,13 @@ resource "aws_iam_role" "aws_iam_role" {
           ]
           Effect   = "Allow"
           Resource = "arn:aws:firehose:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:deliverystream/${local.firehose-name}"
+        },
+        {
+          Action = [
+            "kinesis:DescribeStream"
+          ]
+          Effect   = "Allow"
+          Resource = aws_kinesis_stream.aws_kinesis_stream.arn
         }
       ]
     })
