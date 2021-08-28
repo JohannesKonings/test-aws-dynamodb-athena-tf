@@ -1,5 +1,6 @@
 locals {
-  firehose-name = "${var.TABLE_NAME}-firehose-stream"
+  firehose-name            = "${var.TABLE_NAME}-firehose"
+  fireshose-s3-bucket-name = "${var.TABLE_NAME}-firehose-s3-bucket"
 }
 
 resource "aws_kinesis_firehose_delivery_stream" "aws_kinesis_firehose_delivery_stream" {
@@ -30,7 +31,7 @@ resource "aws_cloudwatch_log_group" "aws_cloudwatch_log_group_firehose" {
 
 
 resource "aws_s3_bucket" "aws_s3_bucket" {
-  bucket = var.S3_BUCKET_NAME
+  bucket = local.fireshose-s3-bucket-name
   acl    = "private"
 
   server_side_encryption_configuration {
