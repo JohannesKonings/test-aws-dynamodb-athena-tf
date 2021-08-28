@@ -15,6 +15,11 @@ provider "aws" {
   }
 }
 
+resource "aws_kms_key" "aws_kms_key" {
+  description             = "KMS key for whole project"
+  deletion_window_in_days = 10
+}
+
 data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}

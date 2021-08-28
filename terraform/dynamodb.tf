@@ -11,8 +11,10 @@ resource "aws_dynamodb_table" "aws_dynamodb_table" {
 }
 
 resource "aws_kinesis_stream" "aws_kinesis_stream" {
-  name        = "${var.TABLE_NAME}-data-stream"
-  shard_count = 1
+  name            = "${var.TABLE_NAME}-data-stream"
+  shard_count     = 1
+  encryption_type = "KMS"
+  kms_key_id      = aws_kms_key.aws_kms_key.arn
 }
 
 resource "aws_dynamodb_kinesis_streaming_destination" "aws_dynamodb_kinesis_streaming_destination" {

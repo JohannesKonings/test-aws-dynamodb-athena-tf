@@ -32,6 +32,15 @@ resource "aws_cloudwatch_log_group" "aws_cloudwatch_log_group_firehose" {
 resource "aws_s3_bucket" "aws_s3_bucket" {
   bucket = var.S3_BUCKET_NAME
   acl    = "private"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = aws_kms_key.aws_kms_key.arn
+        sse_algorithm     = "aws:kms"
+      }
+    }
+  }
 }
 
 resource "aws_iam_role" "aws_iam_role" {
