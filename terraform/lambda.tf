@@ -34,6 +34,7 @@ module "lambda_function_persons_firehose_converter" {
   description   = "add missing linefeed"
   handler       = "index.handler"
   runtime       = "nodejs14.x"
+  timeout       = 120
 
   source_path = "./src/firehose-converter"
 
